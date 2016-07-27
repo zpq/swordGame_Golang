@@ -29,20 +29,19 @@ type Player struct {
 func (b *Boss) attack() {
 	for {
 		if len(b.target) == 0 {
-			return
+			fmt.Println("Boss win")
+			break
 		}
 		if b.base.health <= 0 {
-			return
+			// fmt.Println(b.base.Name , " dead");
+			break
 		}
 		target := b.selectTarget()
 
 		if target.base.health <= 0 {
 			fmt.Println(target.base.Name, " dead ")
 			b.removeTarget(target.base.Name)
-			if len(b.target) == 0 {
-				return
-			}
-			target = b.selectTarget()
+			continue
 		}
 
 		randAtt := rand.Intn(b.base.maxAttack-b.base.minAttack) + b.base.minAttack
@@ -86,13 +85,15 @@ func (self *Boss) removeTarget(name string) {
 func (p *Player) attack() {
 	for {
 		if p.base.health <= 0 {
-			return
+			// fmt.Println(p.base.Name , " dead");
+			break
 		}
 		target := p.selectTarget()
 
 		if target.base.health <= 0 {
 			fmt.Println(target.base.Name, " dead ")
-			return
+			fmt.Println(" player win ")
+			break
 		}
 		randAtt := rand.Intn(p.base.maxAttack-p.base.minAttack) + p.base.minAttack
 		damage := randAtt - target.base.defense
@@ -127,8 +128,8 @@ func main() {
 		base: Base{
 			Name:           "boss",
 			health:         20000,
-			minAttack:      200,
-			maxAttack:      300,
+			minAttack:      250,
+			maxAttack:      400,
 			defense:        200,
 			attackInterval: 500,
 		},
@@ -140,7 +141,7 @@ func main() {
 			minAttack:      250,
 			maxAttack:      300,
 			defense:        130,
-			attackInterval: 300,
+			attackInterval: 200,
 		},
 	}
 	p2 := Player{
@@ -148,7 +149,7 @@ func main() {
 			Name:           "roye",
 			health:         2500,
 			minAttack:      250,
-			maxAttack:      300,
+			maxAttack:      400,
 			defense:        100,
 			attackInterval: 300,
 		},
@@ -156,8 +157,8 @@ func main() {
 	p3 := Player{
 		base: Base{
 			Name:           "bobe",
-			health:         1500,
-			minAttack:      350,
+			health:         1800,
+			minAttack:      400,
 			maxAttack:      500,
 			defense:        100,
 			attackInterval: 300,
